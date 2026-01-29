@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: atlas_client_flow
+    ports:
+      - "3001:3001"
+    volumes:
+      # Persist Sessions and Data
+      - ./server/sessions:/app/server/sessions
+      - ./server/data:/app/server/data
+      # Mount public uploads if needed
+      - ./public/uploads:/app/public/uploads
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - atlas_network
+
+networks:
+  atlas_network:
+    driver: bridge
